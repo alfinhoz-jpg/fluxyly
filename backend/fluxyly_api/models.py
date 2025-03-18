@@ -11,13 +11,18 @@ class Empresa(models.Model):
         return self.nome
     
 class Cliente(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     localizacao = models.CharField(max_length=255, blank=True, null=True)
     
     def __str__(self):
-        return self.usuario.username
+        return self.user.username
     
 class Reserva(models.Model):
+    STATUS_CHOICE = [
+        ('pendente', 'Pendente')
+        ('confirmado', 'Confirmado')
+        ('cancelado', 'Cancelado')
+    ]
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     data = models.DateTimeField()
@@ -25,4 +30,4 @@ class Reserva(models.Model):
     participantes = models.TextField()
     
     def __str__(self):
-        return f"{self.empresa.nome} - {self.data} às {self.horario}"
+        return f"{self.empresa.nome} - {self.data} às {self.horario} ({self.status})"

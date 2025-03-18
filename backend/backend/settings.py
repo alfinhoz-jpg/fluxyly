@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'fluxyly_api',
     'corsheaders',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -127,6 +128,16 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True  # Permite qualquer origem (ajuste no futuro para maior segurança)
+CORS_ALLOW_ALL_ORIGINS = True # <- Mudar no futuro
 CORS_ALLOW_HEADERS = list(default_headers)
 
+from datetime import timedelta
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication', ),
+}
+
+SIMPLE_JWT = {
+        'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+        'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
